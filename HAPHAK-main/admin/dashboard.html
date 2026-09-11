@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de Bord Administrateur — HAPHAK 2026</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+</head>
+<body class="admin-body">
+
+  <!-- Sidebar Navigation -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <img src="../assets/logo.svg" alt="Logo" class="sidebar-logo">
+      <span class="sidebar-brand">HAPHAK Admin</span>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="sidebar-item active" data-tab="tab-overview">
+        <a href="#overview"><span>📊</span> <span>Tableau de bord</span></a>
+      </li>
+      <li class="sidebar-item" data-tab="tab-participants">
+        <a href="#participants"><span>👥</span> <span>Participants</span></a>
+      </li>
+      <li class="sidebar-item">
+        <a href="scanner.html" target="_blank"><span>📷</span> <span>Scanner QR Code</span></a>
+      </li>
+      <li class="sidebar-item" data-tab="tab-settings">
+        <a href="#settings"><span>⚙️</span> <span>Paramètres Retraite</span></a>
+      </li>
+      <li class="sidebar-item" data-tab="tab-backups">
+        <a href="#backups"><span>💾</span> <span>Sauvegardes BD</span></a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button class="btn btn-outline btn-sm" id="btn-logout" style="width:100%; color:#94a3b8; border-color:#334155;">
+        🚪 Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="admin-main">
+    
+    <!-- Topbar Header -->
+    <header class="admin-topbar">
+      <div>
+        <h1 class="admin-title" id="admin-view-title">Aperçu Général</h1>
+        <p style="margin:0; font-size:0.85rem; color:#64748b;" id="admin-user-display">Connecté en tant qu'Administrateur</p>
+      </div>
+      <div>
+        <a href="scanner.html" class="btn btn-gold btn-sm" target="_blank">📷 Ouvrir Scanner Entrée</a>
+      </div>
+    </header>
+
+    <!-- SECTION 1 : TABLEAU DE BORD (OVERVIEW & STATS) -->
+    <div class="tab-content active" id="tab-overview">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-total">0</div>
+            <div class="stat-label">Total Inscrits</div>
+          </div>
+          <div class="stat-icon-box">👥</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-males">0</div>
+            <div class="stat-label">Hommes</div>
+          </div>
+          <div class="stat-icon-box">👨</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-females">0</div>
+            <div class="stat-label">Femmes</div>
+          </div>
+          <div class="stat-icon-box">👩</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-members">0</div>
+            <div class="stat-label">Membres Org.</div>
+          </div>
+          <div class="stat-icon-box">⛪</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-accom">0</div>
+            <div class="stat-label">Hébergement</div>
+          </div>
+          <div class="stat-icon-box">🛏</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-checkedin">0</div>
+            <div class="stat-label">Présences Scannées</div>
+          </div>
+          <div class="stat-icon-box">✅</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-today">0</div>
+            <div class="stat-label">Aujourd'hui</div>
+          </div>
+          <div class="stat-icon-box">📈</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-val" id="stat-week">0</div>
+            <div class="stat-label">Cette Semaine</div>
+          </div>
+          <div class="stat-icon-box">📅</div>
+        </div>
+      </div>
+
+      <!-- Quick Recent Registrations Summary -->
+      <div class="table-card">
+        <h3 style="margin-bottom:1rem; font-family:'Outfit',sans-serif;">Villes Principales représentées</h3>
+        <div id="cities-stat-list" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:1rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 : PARTICIPANTS LIST TABLE -->
+    <div class="tab-content" id="tab-participants" style="display:none;">
+      <div class="table-card">
+        
+        <!-- Toolbar & Filters -->
+        <div class="table-toolbar">
+          <input type="text" id="filter-search" class="search-input" placeholder="🔍 Rechercher (Nom, Prénom, Tél, Code)...">
+          
+          <select id="filter-gender" class="filter-select">
+            <option value="">Tous les Sexes</option>
+            <option value="Homme">Homme</option>
+            <option value="Femme">Femme</option>
+          </select>
+
+          <select id="filter-accom" class="filter-select">
+            <option value="">Hébergement (Tous)</option>
+            <option value="Oui">Hébergement Oui</option>
+            <option value="Non">Hébergement Non</option>
+          </select>
+
+          <select id="filter-checkedin" class="filter-select">
+            <option value="">Statut Présence (Tous)</option>
+            <option value="1">Présent (Scanné)</option>
+            <option value="0">Non Présent</option>
+          </select>
+
+          <button class="btn btn-gold btn-sm" id="btn-export-csv">
+            📥 Exporter CSV
+          </button>
+        </div>
+
+        <!-- Participants Data Table -->
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>N° Inscription</th>
+                <th>Nom & Prénom</th>
+                <th>Sexe</th>
+                <th>Téléphone</th>
+                <th>Ville</th>
+                <th>Hébergement</th>
+                <th>Présence</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="participants-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem;">
+          <span style="font-size:0.85rem; color:#64748b;" id="pagination-info">Affichage 0 sur 0</span>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-secondary btn-sm" id="btn-page-prev">Précédent</button>
+            <button class="btn btn-secondary btn-sm" id="btn-page-next">Suivant</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 3 : PARAMÈTRES DE LA RETRAITE -->
+    <div class="tab-content" id="tab-settings" style="display:none;">
+      <div class="table-card" style="max-width:700px;">
+        <h2 style="font-family:'Outfit',sans-serif; margin-bottom:1rem;">Configuration de la Retraite</h2>
+        <form id="settings-form">
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label">Nom de la retraite</label>
+            <input type="text" id="setting_name" name="name" class="form-input" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label">Thème de l'événement</label>
+            <input type="text" id="setting_theme" name="theme" class="form-input" required>
+          </div>
+
+          <div class="form-grid" style="margin-bottom:1rem;">
+            <div class="form-group">
+              <label class="form-label">Date de début</label>
+              <input type="date" id="setting_start_date" name="start_date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date de fin</label>
+              <input type="date" id="setting_end_date" name="end_date" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label">Lieu du rassemblement</label>
+            <input type="text" id="setting_location" name="location" class="form-input">
+          </div>
+
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label">Numéro de Contact Officiel</label>
+            <input type="text" id="setting_contact_phone" name="contact_phone" class="form-input">
+          </div>
+
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label class="form-label">Statut des Inscriptions</label>
+            <select id="setting_registration_open" name="registration_open" class="form-select">
+              <option value="1">Ouvertes (Accepter de nouvelles inscriptions)</option>
+              <option value="0">Fermées (Formulaire désactivé)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-gold">Enregistrer les modifications 💾</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- SECTION 4 : SAUVEGARDES BASE DE DONNÉES -->
+    <div class="tab-content" id="tab-backups" style="display:none;">
+      <div class="table-card" style="max-width:650px;">
+        <h2 style="font-family:'Outfit',sans-serif; margin-bottom:1rem;">Sauvegarde de la Base SQLite</h2>
+        <p style="color:#64748b; font-size:0.95rem; margin-bottom:1.5rem;">
+          Cliquez sur le bouton ci-dessous pour créer instantanément une copie de sauvegarde horodatée de la base de données SQLite dans le dossier <code>exports/</code> du serveur.
+        </p>
+
+        <button class="btn btn-gold" id="btn-trigger-backup">
+          💾 Créer une Sauvegarde Maintenant
+        </button>
+
+        <div id="backup-result-msg" style="margin-top:1.25rem; font-weight:600; font-size:0.9rem;"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Participant Detail & Edit Modal -->
+  <div class="admin-modal-backdrop" id="modal-participant-detail">
+    <div class="admin-modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:2px solid var(--admin-primary);">
+        <h2 style="margin:0; font-family:'Outfit',sans-serif;" id="modal-participant-title">Fiche Participant</h2>
+        <button type="button" style="background:none; border:none; font-size:1.5rem; cursor:pointer;" id="btn-close-participant-modal">&times;</button>
+      </div>
+
+      <div id="modal-participant-body">
+        <!-- Dynamic JS content -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

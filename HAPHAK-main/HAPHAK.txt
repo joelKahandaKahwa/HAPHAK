@@ -1,0 +1,937 @@
+Agis comme un développeur Full-Stack senior spécialisé en applications web sécurisées, modernes et responsives.
+
+Je veux créer une application web complète destinée à gérer les inscriptions des participants à une retraite chrétienne.
+
+IMPORTANT :
+- Les participants doivent pouvoir accéder au formulaire depuis leur téléphone ou ordinateur, où qu'ils se trouvent.
+- Ils ne seront pas forcément connectés au même réseau Wi-Fi que l'administrateur.
+- Les données doivent être enregistrées dans une base de données contrôlée par l'administrateur.
+- Ne pas utiliser Google Forms, Google Sheets, Firebase, Supabase ou une autre solution cloud pour stocker les données.
+- L'application doit pouvoir être développée et testée entièrement en local.
+- Elle devra ensuite pouvoir être déployée sur un serveur Internet.
+- Le système doit être conçu pour que les données des participants restent dans la base de données de l'application/serveur que je contrôle.
+- envoyer automatiquement un mail a la personne qui viens de s'inscrire, un mail contenant un code qr que l'admi va scanner a l'entree pour reconnaitre la personne.
+
+==================================================
+1. TECHNOLOGIES
+==================================================
+
+Utilise :
+
+FRONTEND :
+- HTML5
+- CSS3
+- JavaScript vanilla
+- Design responsive Mobile First
+- Pas de framework frontend obligatoire
+
+BACKEND :
+- Node.js
+- Express.js
+
+BASE DE DONNÉES :
+- SQLite pour commencer
+- Utiliser une bibliothèque SQLite fiable pour Node.js
+- Prévoir une architecture permettant de migrer facilement vers PostgreSQL plus tard si nécessaire
+
+AUTRES :
+- API REST
+- Validation côté client ET côté serveur
+- Sessions sécurisées ou JWT pour l'administration
+- Variables d'environnement avec .env
+- Helmet pour améliorer la sécurité HTTP
+- CORS configuré correctement
+- Protection contre les injections SQL
+- Hashage sécurisé du mot de passe administrateur
+- Gestion propre des erreurs
+
+==================================================
+2. STRUCTURE DU PROJET
+==================================================
+
+Crée une architecture professionnelle similaire à :
+
+retreat-registration/
+│
+├── server/
+│   ├── server.js
+│   ├── database.js
+│   ├── routes/
+│   │   ├── registrationRoutes.js
+│   │   └── adminRoutes.js
+│   ├── controllers/
+│   ├── middleware/
+│   └── utils/
+│
+├── database/
+│   └── retreat.db
+│
+├── public/
+│   ├── index.html
+│   ├── success.html
+│   ├── css/
+│   │   ├── style.css
+│   │   └── admin.css
+│   ├── js/
+│   │   ├── form.js
+│   │   └── admin.js
+│   └── assets/
+│
+├── admin/
+│   ├── login.html
+│   └── dashboard.html
+│
+├── exports/
+│
+├── .env
+├── .env.example
+├── package.json
+├── README.md
+└── .gitignore
+
+==================================================
+3. PAGE D'ACCUEIL
+==================================================
+
+Créer une page d'accueil moderne et élégante pour présenter la retraite.
+
+La page doit contenir :
+
+- Logo de l'organisation
+- Nom de la retraite "HAPHAK 2026".
+- Thème de la retraite 
+- Une courte présentation
+- Dates : du 26 au 29 semptembre 2026
+- Lieu : a definir
+- Message de bienvenue
+- Bouton "S'inscrire à la retraite"
+- Bouton permettant de consulter les informations pratiques
+
+Design :
+- Moderne
+- Chrétien mais professionnel
+- Élégant
+- Responsive
+- Très bonne expérience mobile
+- Animations CSS légères
+- Interface rapide
+
+Utiliser une palette de couleurs harmonieuse :
+- Blanc
+- Doré
+- éventuellement une couleur secondaire sobre
+
+Ne pas surcharger la page avec trop d'animations.
+
+==================================================
+4. FORMULAIRE D'INSCRIPTION
+==================================================
+
+Créer un formulaire complet divisé en plusieurs étapes.
+
+Utiliser un formulaire multi-step afin qu'il soit facile à remplir sur smartphone.
+
+Afficher une barre de progression :
+
+Étape 1 — Identité
+Étape 2 — Coordonnées
+Étape 3 — Informations familiales
+Étape 4 — Participation à la retraite
+Étape 5 — Informations complémentaires
+Étape 6 — Confirmation
+
+------------------------------------------
+ÉTAPE 1 : IDENTITÉ
+------------------------------------------
+
+Champs :
+
+- Nom
+- Postnom
+- Prénom
+- Sexe
+- État civil
+
+Sexe :
+- Homme
+- Femme
+
+État civil :
+- Célibataire
+- Marié(e)
+
+Tous les champs nécessaires doivent être validés.
+
+------------------------------------------
+ÉTAPE 2 : COORDONNÉES
+------------------------------------------
+
+Champs :
+
+- Numéro de téléphone
+- WhatsApp
+- Adresse
+- Ville
+- Quartier
+- Commune
+- Province
+- Pays
+- Adresse e-mail 
+
+------------------------------------------
+ÉTAPE 3 : INFORMATIONS FAMILIALES
+------------------------------------------
+
+Champs :
+
+- Situation familiale
+- Nombre de personnes dans la famille
+- Nombre d'enfants
+- Personne de contact en cas d'urgence
+- Numéro de téléphone de la personne à contacter
+- Lien avec cette personne
+
+Exemples :
+
+- Père
+- Mère
+- Frère
+- Sœur
+- Époux/épouse
+- Tuteur
+- Autre
+
+------------------------------------------
+ÉTAPE 4 : PARTICIPATION À LA RETRAITE
+------------------------------------------
+
+Champs :
+
+"Comment avez-vous connu cette retraite ?"
+
+Options :
+- Église
+- Ami(e)
+- WhatsApp
+- Facebook
+- Instagram
+- Annonce
+- Autre
+
+"De quelle ville venez-vous ?"
+
+"Comment allez-vous arriver ?"
+
+Options :
+- Transport personnel
+- Transport en commun
+- Véhicule de groupe
+- Autre
+
+"Participerez-vous à toute la retraite ?"
+
+- Oui
+- Non
+- Je ne sais pas encore
+
+"Date prévue d'arrivée"
+
+"Date prévue de départ"
+
+"Êtes-vous membre de l'organisation ?"
+
+- Oui
+- Non
+
+Si oui :
+Afficher :
+"Quel département/service ?"
+
+------------------------------------------
+ÉTAPE 5 : HÉBERGEMENT ET ORGANISATION
+------------------------------------------
+
+Prévoir :
+
+"Voulez-vous bénéficier d'un hébergement ?"
+
+- Oui
+- Non
+
+Si oui :
+
+"Nombre de nuits prévues"
+
+"Préférence d'hébergement"
+
+- Chambre
+- Dortoir
+- Peu importe
+
+Prévoir également :
+
+"Viendrez-vous seul(e) ?"
+
+- Oui
+- Non
+
+Si non :
+"Nombre de personnes qui vous accompagnent"
+
+------------------------------------------
+ÉTAPE 6 : INFORMATIONS COMPLÉMENTAIRES
+------------------------------------------
+
+Champs :
+
+- Besoins particuliers
+- Commentaires
+- Observations
+- Informations importantes que l'organisation devrait connaître
+
+Prévoir un champ textarea.
+
+Ajouter une case obligatoire :
+
+☐ J'accepte que les informations fournies soient utilisées uniquement dans le cadre de l'organisation de cette retraite.
+
+Ajouter également :
+
+☐ Je confirme que les informations fournies sont exactes.
+
+==================================================
+5. VALIDATION
+==================================================
+
+Le formulaire doit effectuer une validation :
+
+CÔTÉ CLIENT :
+JavaScript
+
+ET
+
+CÔTÉ SERVEUR :
+Node.js / Express
+
+Ne jamais faire confiance uniquement à la validation JavaScript.
+
+Vérifier notamment :
+
+- Champs obligatoires
+- Format email
+- Longueur minimale/maximale
+- Dates valides
+- Valeurs autorisées
+- Protection contre les données malveillantes
+
+Afficher des messages d'erreur clairs en français.
+
+Exemple :
+
+"Veuillez saisir votre numéro de téléphone."
+
+"Ce numéro de téléphone semble incorrect."
+
+==================================================
+6. ENVOI DES DONNÉES
+==================================================
+
+Lorsque l'utilisateur clique sur :
+
+"CONFIRMER MON INSCRIPTION"
+
+Le frontend doit envoyer les données à une API REST.
+
+Exemple :
+
+POST /api/registrations
+
+Le serveur doit :
+
+1. Recevoir les données
+2. Les valider
+3. Nettoyer les données
+4. Les enregistrer dans SQLite
+5. Générer un identifiant unique d'inscription
+6. Retourner une réponse JSON
+
+Exemple :
+
+{
+  "success": true,
+  "registrationId": "RET-2026-0001"
+}
+
+==================================================
+7. PAGE DE CONFIRMATION
+==================================================
+
+Après une inscription réussie, afficher une belle page :
+
+"INSCRIPTION RÉUSSIE"
+
+Message :
+
+"Merci pour votre inscription à la retraite."
+
+Afficher :
+
+- Numéro d'inscription
+- Nom du participant
+- Date d'inscription
+- Informations principales de la retraite
+
+Ajouter :
+
+"Conservez votre numéro d'inscription."
+
+Boutons :
+
+- Imprimer
+- Télécharger/Enregistrer la confirmation
+- Retour à l'accueil
+
+==================================================
+8. BASE DE DONNÉES
+==================================================
+
+Créer une base SQLite.
+
+Table principale :
+
+registrations
+
+Colonnes par exemple :
+
+id
+registration_number
+first_name
+last_name
+middle_name
+gender
+birth_date
+marital_status
+phone
+whatsapp
+email
+address
+city
+neighborhood
+commune
+province
+country
+family_status
+family_size
+children_count
+emergency_contact_name
+emergency_contact_phone
+emergency_contact_relationship
+source
+arrival_city
+transport_method
+full_retreat
+arrival_date
+departure_date
+organization_member
+department
+accommodation_required
+nights
+accommodation_type
+coming_with_others
+companions_count
+special_needs
+comments
+consent
+confirmed
+created_at
+updated_at
+
+Ajouter les index nécessaires pour les recherches fréquentes.
+
+==================================================
+9. TABLEAU DE BORD ADMINISTRATEUR
+==================================================
+
+Créer une interface :
+
+/admin
+
+Accessible uniquement après authentification.
+
+Le tableau de bord doit afficher :
+
+- Nombre total d'inscrits
+- Nombre d'hommes
+- Nombre de femmes
+- Nombre de membres
+- Nombre de non-membres
+- Nombre de personnes demandant un hébergement
+- Nombre de personnes par ville
+- Nombre d'inscriptions aujourd'hui
+- Nombre d'inscriptions cette semaine
+
+Créer des cartes statistiques modernes.
+
+==================================================
+10. LISTE DES PARTICIPANTS
+==================================================
+
+Créer un tableau administrateur avec :
+
+- Numéro d'inscription
+- Nom complet
+- Téléphone
+- Ville
+- Sexe
+- Statut
+- Hébergement
+- Date d'inscription
+
+Fonctions :
+
+- Recherche
+- Filtre par ville
+- Filtre par sexe
+- Filtre par statut
+- Filtre par hébergement
+- Filtre par date
+- Tri
+- Pagination
+
+Sur téléphone, transformer le tableau en cartes responsive.
+
+==================================================
+11. FICHE D'UN PARTICIPANT
+==================================================
+
+Lorsqu'un administrateur clique sur un participant :
+
+Afficher toutes ses informations.
+
+Actions :
+
+- Modifier
+- Supprimer
+- Imprimer
+- Exporter
+- Retour à la liste
+
+Avant suppression :
+
+Afficher une confirmation :
+
+"Êtes-vous sûr de vouloir supprimer cette inscription ?"
+
+==================================================
+12. EXPORTATION
+==================================================
+
+Ajouter des boutons :
+
+"Exporter CSV"
+
+"Exporter PDF"
+
+"Exporter Excel"
+
+"Imprimer la liste"
+
+L'export doit permettre à l'administrateur de récupérer les inscriptions.
+
+Prévoir également :
+
+- Export de tous les participants
+- Export selon les filtres actuels
+
+==================================================
+13. AUTHENTIFICATION ADMIN
+==================================================
+
+Créer une page :
+
+/admin/login
+
+Champs :
+
+- Nom d'utilisateur
+- Mot de passe
+
+Ne jamais stocker le mot de passe en clair.
+
+Utiliser un hash sécurisé.
+
+Ajouter :
+
+- Session sécurisée
+- Déconnexion
+- Protection des routes admin
+- Protection contre les tentatives abusives de connexion
+
+Les pages /admin ne doivent jamais être accessibles sans authentification.
+
+==================================================
+14. SÉCURITÉ
+==================================================
+
+Appliquer les bonnes pratiques :
+
+- Helmet
+- Validation serveur
+- Requêtes SQL paramétrées
+- Protection XSS
+- Protection CSRF si nécessaire
+- Rate limiting
+- Cookies sécurisés
+- Mots de passe hashés
+- Variables sensibles dans .env
+- Ne jamais exposer les secrets dans le frontend
+- Ne jamais exposer directement la base SQLite au public
+- Ne jamais permettre le téléchargement direct du fichier .db
+
+IMPORTANT :
+
+Les données personnelles doivent être protégées.
+
+Ne collecter que les informations réellement nécessaires à l'organisation de la retraite.
+
+==================================================
+15. CONFIGURATION LOCALE
+==================================================
+
+L'application doit fonctionner avec :
+
+npm install
+
+puis :
+
+npm run dev
+
+ou :
+
+npm start
+
+Elle doit être accessible localement par exemple :
+
+http://localhost:3000
+
+Le formulaire doit fonctionner complètement sans Internet lorsqu'il est utilisé localement.
+
+==================================================
+16. ACCÈS DEPUIS INTERNET
+==================================================
+
+Préparer l'application pour être déployée sur un serveur.
+
+IMPORTANT :
+
+Il faut expliquer clairement dans le README que :
+
+- localhost n'est accessible que depuis la machine locale.
+- Pour que les participants puissent remplir le formulaire depuis chez eux, l'application doit être accessible via Internet.
+- Le serveur doit donc être hébergé sur une machine/serveur accessible publiquement.
+- La base SQLite doit rester sur ce serveur contrôlé par l'administrateur.
+
+Ne pas prétendre qu'une application uniquement sur localhost peut recevoir des inscriptions depuis Internet.
+
+Prévoir une architecture :
+
+Participants
+      ↓
+Internet
+      ↓
+Serveur HTTPS
+      ↓
+Node.js + Express
+      ↓
+SQLite
+      ↓
+Administrateur
+
+==================================================
+17. CONFIDENTIALITÉ
+==================================================
+
+Ajouter une page ou section :
+
+"Protection des données"
+
+Expliquer simplement :
+
+- Pourquoi les données sont collectées
+- Comment elles sont utilisées
+- Qui peut y accéder
+- Combien de temps elles sont conservées
+- Comment demander leur suppression
+
+Ne pas partager les informations avec des tiers sans autorisation.
+
+==================================================
+18. INTERFACE
+==================================================
+
+Le design doit être :
+
+- Moderne
+- Professionnel
+- Chrétien
+- Élégant
+- Minimaliste
+- Responsive
+- Mobile First
+
+Le formulaire doit être particulièrement agréable sur Android.
+
+Prévoir :
+
+- Gros boutons
+- Champs faciles à toucher
+- Barre de progression
+- Icônes
+- Messages d'erreur visibles
+- Animation légère entre les étapes
+- Bouton "Suivant"
+- Bouton "Précédent"
+
+==================================================
+19. ACCESSIBILITÉ
+==================================================
+
+Respecter les bonnes pratiques :
+
+- Labels associés aux champs
+- Contraste suffisant
+- Navigation clavier
+- Messages d'erreur accessibles
+- Focus visible
+- Attributs ARIA lorsque nécessaires
+
+==================================================
+20. ADMINISTRATION DE LA RETRAITE
+==================================================
+
+Prévoir dans le dashboard une section :
+
+"Paramètres de la retraite"
+
+L'administrateur pourra modifier :
+
+- Nom de la retraite
+- Thème
+- Date
+- Heure
+- Lieu
+- Description
+- Contact
+- Numéro WhatsApp
+- Date d'ouverture des inscriptions
+- Date de fermeture des inscriptions
+
+Ainsi, il ne sera pas nécessaire de modifier directement le code pour changer ces informations.
+
+==================================================
+21. SAUVEGARDES
+==================================================
+
+Prévoir un système permettant à l'administrateur de sauvegarder régulièrement la base de données.
+
+Créer éventuellement une fonction :
+
+"Créer une sauvegarde"
+
+qui copie la base SQLite vers un emplacement sécurisé.
+
+IMPORTANT :
+
+Expliquer dans le README que :
+
+- Une base locale sur le serveur peut être sauvegardée.
+- Il faut effectuer des sauvegardes régulières.
+- Une sauvegarde ne doit pas être accessible publiquement via le navigateur.
+
+==================================================
+22. API
+==================================================
+
+Créer des routes propres :
+
+POST   /api/registrations
+GET    /api/registrations
+GET    /api/registrations/:id
+PUT    /api/registrations/:id
+DELETE /api/registrations/:id
+
+Authentifier les routes administratives.
+
+Par exemple :
+
+GET /api/admin/registrations
+
+ne doit fonctionner que si l'administrateur est authentifié.
+
+==================================================
+23. README
+==================================================
+
+Créer un README.md extrêmement clair contenant :
+
+1. Présentation du projet
+2. Prérequis
+3. Installation de Node.js
+4. Installation des dépendances
+5. Configuration du fichier .env
+6. Création de la base SQLite
+7. Lancement en développement
+8. Lancement en production
+9. Accès à l'administration
+10. Création du compte administrateur
+11. Sauvegarde de la base
+12. Export des participants
+13. Sécurité
+14. Déploiement sur Internet
+15. Configuration HTTPS
+16. Maintenance
+
+==================================================
+24. FICHIER .ENV
+==================================================
+
+Créer :
+
+.env.example
+
+avec par exemple :
+
+PORT=3000
+NODE_ENV=development
+SESSION_SECRET=CHANGE_ME
+ADMIN_USERNAME=admin
+
+Ne jamais mettre de véritables secrets dans le code source.
+
+==================================================
+25. CODE COMPLET
+==================================================
+
+Je veux que tu génères le projet COMPLET et fonctionnel.
+
+Ne donne pas uniquement une maquette.
+
+Génère :
+
+- HTML
+- CSS
+- JavaScript frontend
+- Node.js
+- Express
+- SQLite
+- API REST
+- Authentification admin
+- Dashboard
+- Validation
+- Export CSV
+- Gestion des erreurs
+- README
+- package.json
+- .env.example
+
+Chaque fichier doit être clairement séparé avec son chemin.
+
+Le code doit être directement copiable dans VS Code.
+
+==================================================
+26. EXPÉRIENCE UTILISATEUR
+==================================================
+
+Le parcours doit être :
+
+ACCUEIL
+   ↓
+"JE M'INSCRIS"
+   ↓
+FORMULAIRE
+   ↓
+VALIDATION
+   ↓
+RÉCAPITULATIF
+   ↓
+CONFIRMATION
+   ↓
+NUMÉRO D'INSCRIPTION
+
+Le participant ne doit jamais avoir besoin de créer un compte.
+
+L'inscription doit être simple et rapide.
+
+==================================================
+27. RÉCAPITULATIF AVANT ENVOI
+==================================================
+
+Avant l'envoi définitif, afficher toutes les informations saisies.
+
+Exemple :
+
+--------------------------------
+RÉCAPITULATIF
+--------------------------------
+
+Nom : ...
+Téléphone : ...
+Ville : ...
+Sexe : ...
+Hébergement : ...
+Date d'arrivée : ...
+
+[MODIFIER]
+
+[CONFIRMER MON INSCRIPTION]
+
+Ainsi, le participant peut corriger une erreur avant l'enregistrement.
+
+==================================================
+28. CONTRAINTE IMPORTANTE
+==================================================
+
+Ne pas utiliser de données fictives comme si elles étaient réelles.
+
+Si une information concernant la retraite n'est pas fournie, utiliser une variable/configuration clairement identifiable :
+
+[À CONFIGURER]
+
+Ne jamais inventer :
+
+- dates
+- lieu
+- thème
+- prix
+- coordonnées
+- noms d'organisateurs
+
+==================================================
+29. OBJECTIF FINAL
+==================================================
+
+À la fin, je veux obtenir une véritable application web d'inscription à une retraite.
+
+Les participants pourront utiliser leur téléphone depuis chez eux pour remplir le formulaire.
+
+Les données seront envoyées au serveur de l'application.
+
+Le serveur enregistrera les données dans SQLite.
+
+L'administrateur pourra se connecter à son espace privé pour :
+
+- voir les inscrits
+- rechercher
+- filtrer
+- modifier
+- supprimer
+- imprimer
+- exporter
+- consulter les statistiques
+- sauvegarder les données
+
+L'application devra être conçue de façon à pouvoir évoluer plus tard vers PostgreSQL si le nombre de participants augmente.
+
+Commence par créer l'arborescence complète du projet, puis génère chaque fichier avec son code complet.
+
+Ne simplifie pas le projet en une simple maquette : toutes les fonctionnalités principales doivent être réellement fonctionnelles.

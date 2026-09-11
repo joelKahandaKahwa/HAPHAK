@@ -1,0 +1,431 @@
+/* ==================================================
+   MULTI-STEP FORM STYLING - HAPHAK 2026
+   Mobile First, Touch-Friendly, Wizard Progress
+   ================================================== */
+
+.form-page-wrapper {
+  padding: 2.5rem 0 5rem 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Wizard Header & Progress Bar */
+.wizard-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.wizard-title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin-bottom: 0.5rem;
+}
+
+.wizard-subtitle {
+  color: var(--slate-500);
+  font-size: 0.95rem;
+}
+
+/* Progress Steps Indicator */
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin: 2rem 0 3rem 0;
+}
+
+.step-indicator::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--slate-200);
+  z-index: 1;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  height: 4px;
+  background: var(--gold-gradient);
+  z-index: 1;
+  transition: width 0.3s ease;
+}
+
+.step-item {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--slate-300);
+  color: var(--slate-500);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: var(--transition-smooth);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--slate-500);
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.step-item.active .step-number {
+  border-color: var(--primary-gold);
+  background: var(--slate-900);
+  color: var(--primary-gold);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+}
+
+.step-item.active .step-label {
+  color: var(--slate-900);
+  font-weight: 700;
+}
+
+.step-item.completed .step-number {
+  background: var(--primary-gold);
+  border-color: var(--primary-gold);
+  color: var(--slate-900);
+}
+
+.step-item.completed .step-number::after {
+  content: '✓';
+  font-weight: 900;
+}
+
+/* Wizard Form Card */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  border: 1px solid var(--slate-200);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.form-step-panel {
+  display: none;
+  animation: fadeInStep 0.35s ease forwards;
+}
+
+.form-step-panel.active {
+  display: block;
+}
+
+@keyframes fadeInStep {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-heading {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--slate-900);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step-subtext {
+  color: var(--slate-500);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--slate-100);
+}
+
+/* Form Controls & Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.col-full {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--slate-700);
+}
+
+.form-label .req {
+  color: var(--danger);
+  margin-left: 3px;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--slate-300);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--slate-900);
+  transition: var(--transition-fast);
+  font-size: 1rem;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.form-textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Custom Touch-Friendly Radio & Checkbox Pills */
+.pill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.pill-option {
+  position: relative;
+}
+
+.pill-option input[type="radio"],
+.pill-option input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pill-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--slate-300);
+  border-radius: var(--radius-md);
+  background: var(--bg-light);
+  color: var(--slate-700);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition-fast);
+  user-select: none;
+}
+
+.pill-option input:checked + .pill-label {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--primary-gold);
+  color: var(--slate-900);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.18);
+}
+
+/* Checkbox Consent Box */
+.checkbox-card {
+  background: var(--bg-light);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+}
+
+.checkbox-card input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-gold);
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.checkbox-text {
+  font-size: 0.9rem;
+  color: var(--slate-700);
+  line-height: 1.5;
+}
+
+/* Error Messages & Tooltips */
+.error-banner {
+  background: #fef2f2;
+  border-left: 4px solid var(--danger);
+  color: #991b1b;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  display: none;
+  font-size: 0.9rem;
+}
+
+.error-banner.active {
+  display: block;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+.form-group.has-error .form-input,
+.form-group.has-error .form-select {
+  border-color: var(--danger);
+  background-color: #fff5f5;
+}
+
+.form-group.has-error .field-error {
+  display: block;
+}
+
+/* Step Navigation Footer */
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--slate-200);
+}
+
+/* Recap Summary Panel */
+.recap-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.recap-section {
+  background: var(--bg-light);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+}
+
+.recap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--slate-200);
+}
+
+.recap-title {
+  font-weight: 700;
+  color: var(--slate-900);
+  font-size: 1rem;
+}
+
+.recap-edit-btn {
+  background: none;
+  border: none;
+  color: var(--gold-dark);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.recap-edit-btn:hover {
+  text-decoration: underline;
+}
+
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.recap-item-lbl {
+  color: var(--slate-500);
+  font-size: 0.8rem;
+}
+
+.recap-item-val {
+  font-weight: 600;
+  color: var(--slate-800);
+}
+
+/* Responsive Mobile Rules */
+@media (max-width: 640px) {
+  .form-page-wrapper {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .form-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recap-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-indicator {
+    gap: 0.5rem;
+  }
+
+  .step-label {
+    display: none;
+  }
+
+  .step-number {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+  }
+
+  .wizard-title {
+    font-size: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .pill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
