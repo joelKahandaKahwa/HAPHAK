@@ -41,6 +41,7 @@ function validateRegistrationData(req, res, next) {
   const commune = sanitize(data.commune);
   const province = sanitize(data.province);
   const country = sanitize(data.country);
+  const items_to_bring = sanitize(data.items_to_bring);
 
   const phoneRegex = /^[+]*[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/;
   if (!phone || !phoneRegex.test(phone)) {
@@ -103,6 +104,7 @@ function validateRegistrationData(req, res, next) {
   req.body.commune = commune;
   req.body.province = province;
   req.body.country = country;
+  req.body.items_to_bring = items_to_bring;
   req.body.emergency_contact_name = emergency_contact_name;
   req.body.emergency_contact_phone = emergency_contact_phone;
   req.body.emergency_contact_relationship = emergency_contact_relationship;

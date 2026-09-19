@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div><strong>Date arrivée / départ :</strong> ${p.arrival_date || '—'} au ${p.departure_date || '—'}</div>
             <div><strong>Accompagnants :</strong> ${p.coming_with_others === 'Oui' ? p.companions_count + ' pers.' : 'Seul'}</div>
             <div style="grid-column:1/-1;"><strong>Remarques particulières :</strong> ${p.special_needs || 'Aucune'}</div>
+            <div style="grid-column:1/-1;"><strong>Objet(s) à apporter :</strong> ${p.items_to_bring || 'Aucun'}</div>
             <div style="grid-column:1/-1;"><strong>Statut Présence :</strong> ${p.checked_in ? '✅ Validé le ' + p.checkin_time : '⏳ Pas encore scanné à l’entrée'}</div>
           </div>
           
@@ -268,7 +269,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (s.start_date) document.getElementById('setting_start_date').value = s.start_date;
         if (s.end_date) document.getElementById('setting_end_date').value = s.end_date;
         if (s.location) document.getElementById('setting_location').value = s.location;
+        if (s.description) document.getElementById('setting_description').value = s.description;
         if (s.contact_phone) document.getElementById('setting_contact_phone').value = s.contact_phone;
+        if (s.contact_whatsapp) document.getElementById('setting_contact_whatsapp').value = s.contact_whatsapp;
         if (s.registration_open) document.getElementById('setting_registration_open').value = s.registration_open;
       }
     } catch (err) {

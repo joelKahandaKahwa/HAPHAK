@@ -36,10 +36,10 @@
     <div class="container hero-grid">
       <div class="hero-text-content">
         <div class="hero-tag">
-          <span>✝ HAPHAK — « transforme »</span>
+          <span id="retreat-name">✝ HAPHAK — « transforme »</span>
         </div>
         <h1 class="hero-title">
-          HAPHAK <span class="text-gold">transforme</span>
+          <span id="retreat-title-text">HAPHAK</span> <span class="text-gold" id="retreat-title-accent">transforme</span>
         </h1>
 
         <div class="hero-theme-box">
@@ -47,9 +47,8 @@
           <div class="hero-theme-text" id="retreat-theme-text">« Marche devant ma face »</div>
         </div>
 
-        <p class="hero-description">
-          Un rendez-vous spirituel exceptionnel pour renouveler votre foi, vivre des moments intenses de communion et
-          recevoir une direction divine claire pour votre vie.
+        <p class="hero-description" id="retreat-description">
+          La retraite HAPHAK se veut un temps fort d'édification et de renouveau. Placée sous le thème tiré de Genèse 17:1 :<strong> « Marche devant ma face »</strong>, cette édition a pour objectif principal de ramener le cœur des croyants à un retour authentique, consacré et intègre devant le Seigneur.
         </p>
 
         <div class="hero-actions">
@@ -71,7 +70,7 @@
           <div class="info-icon">📅</div>
           <div>
             <div class="info-label">Dates de la retraite</div>
-            <div class="info-val" id="retreat-dates">Du 23 au 25 septembre 2026</div>
+            <div class="info-val" id="retreat-dates">Du 27 au 29 septembre 2026</div>
           </div>
         </div>
 
@@ -79,7 +78,7 @@
           <div class="info-icon">⏰</div>
           <div>
             <div class="info-label">Début de la retraite</div>
-            <div class="info-val">À 17h le 23 septembre</div>
+            <div class="info-val" id="retreat-start-date">Dimanche 27 septembre à 17h00.</div>
           </div>
         </div>
 
@@ -87,7 +86,7 @@
           <div class="info-icon">📍</div>
           <div>
             <div class="info-label">Lieu du rassemblement</div>
-            <div class="info-val" id="retreat-location">Centre de retraite HAPHAK — Kinshasa</div>
+            <div class="info-val" id="retreat-location">Q. Kyeshero, Av. Topographe Numero 1, Reference: Entree Tshengerero</div>
           </div>
         </div>
 
@@ -95,7 +94,7 @@
           <div class="info-icon">💬</div>
           <div>
             <div class="info-label">Contact & Assistance</div>
-            <div class="info-val" id="retreat-contact">+243 972 000 000</div>
+            <div class="info-val" id="retreat-contact">+243816366894</div>
           </div>
         </div>
 
@@ -170,21 +169,23 @@
 
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">🌙</div>
-          <h3 class="feature-h">Session 1 — Soirée</h3>
-          <p class="feature-p">Ouverture de la retraite avec une atmosphère de présence, de parole et d'adoration.</p>
+          <div class="feature-icon">🌄</div>
+          <h3 class="feature-h">Sessions quotidiennes (3 vacations)</h3>
+          <p class="feature-p"><strong>Session du Matin</strong> — 09h00 – 11h30 : Enseignement et adoration.</p>
+          <p class="feature-p"><strong>Session du Midi</strong> — 14h00 – 16h00 : Étude biblique approfondie assurée par le Centre Bérée (Bible Study).</p>
+          <p class="feature-p"><strong>Session du Soir</strong> — 20h30 – 01h00 : Intercession, adoration et ateliers.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">🌅</div>
-          <h3 class="feature-h">Session 2 — Matin</h3>
-          <p class="feature-p">Un temps de réveil spirituel, de méditation biblique et de renforcement de la foi.</p>
+          <div class="feature-icon">📚</div>
+          <h3 class="feature-h">Détails pratiques</h3>
+          <p class="feature-p">Chaque session est conçue pour favoriser la prière, l'enseignement et la mise en pratique. Les ateliers du soir sont interactifs et incluent des temps d'intercession.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon">☀️</div>
-          <h3 class="feature-h">Session 3 — Après-midi</h3>
-          <p class="feature-p">Un moment de profondeur, de réflexion et d'engagement pour marcher avec Dieu.</p>
+          <div class="feature-icon">🕊️</div>
+          <h3 class="feature-h">Participation</h3>
+          <p class="feature-p">Merci de vous inscrire via le formulaire pour réserver votre place et indiquer vos besoins d'hébergement ou alimentaires.</p>
         </div>
       </div>
     </div>
@@ -196,15 +197,15 @@
       <button class="modal-close" id="btn-close-modal">&times;</button>
       <h2 class="modal-title">Informations Pratiques HAPHAK — « transforme »</h2>
       <div style="display:flex; flex-direction:column; gap:1.25rem; font-size:0.95rem; color:var(--slate-700);">
-        <p><strong>Début :</strong> Mercredi 23 septembre à 17h00.</p>
-        <p><strong>Dates :</strong> Du 23 au 25 septembre 2026.</p>
-        <p><strong>Lieu :</strong> Centre de retraite HAPHAK — Kinshasa.</p>
+        <p><strong>Début :</strong> <span id="modal-start-date">Dimanche 27 septembre à 17h00.</span></p>
+        <p><strong>Dates :</strong> <span id="modal-dates">Du 27 au 29 septembre 2026.</span></p>
+        <p><strong>Lieu :</strong> <span id="modal-location">Q. Kyeshero, Av. Topographe Numero 1, Référence: Entree Tshengerero</span></p>
         <p><strong>Hébergement & Restauration :</strong> Possibilité de bénéficier d'un hébergement sur place selon vos
           préférences spécifiées lors de l'inscription.</p>
         <p><strong>Code QR d'accès :</strong> À la fin de votre inscription, un passe contenant un QR Code unique vous
           sera attribué et envoyé par e-mail. Conservez-le précieusement sur votre téléphone.</p>
         <p><strong>Des questions ?</strong> N'hésitez pas à contacter le comité d'organisation au numéro <span
-            id="modal-contact-num">+243 972 000 000</span>.</p>
+          id="modal-contact-num">+243816366894</span>.</p>
       </div>
       <div style="margin-top:2rem; text-align:right;">
         <a href="form.html" class="btn btn-gold">Je m'inscris maintenant</a>

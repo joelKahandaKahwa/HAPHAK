@@ -275,6 +275,18 @@ document.addEventListener('DOMContentLoaded', () => {
           <div><div class="recap-item-lbl">Accompagnants :</div><div class="recap-item-val">${getVal('coming_with_others') === 'Non' ? 'Seul' : getVal('companions_count')+' personne(s)'}</div></div>
         </div>
       </div>
+
+      <!-- Block 6 : À apporter -->
+      <div class="recap-section">
+        <div class="recap-header">
+          <div class="recap-title">📦 À apporter</div>
+          <button type="button" class="recap-edit-btn" onclick="jumpToStep(6)">[Modifier]</button>
+        </div>
+        <div class="recap-grid">
+          <div style="grid-column:1/-1;"><div class="recap-item-lbl">Objet(s) / matériel(s) :</div><div class="recap-item-val">${getVal('items_to_bring')}</div></div>
+          <div style="grid-column:1/-1;"><div class="recap-item-lbl">Commentaires :</div><div class="recap-item-val">${getVal('comments')}</div></div>
+        </div>
+      </div>
     `;
 
     recapBox.innerHTML = html;

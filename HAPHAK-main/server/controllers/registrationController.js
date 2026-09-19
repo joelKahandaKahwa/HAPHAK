@@ -48,7 +48,7 @@ async function createRegistration(req, res) {
         emergency_contact_name, emergency_contact_phone, emergency_contact_relationship,
         source, arrival_city, transport_method, full_retreat, arrival_date, departure_date,
         organization_member, department, accommodation_required, nights, accommodation_type,
-        coming_with_others, companions_count, special_needs, comments, consent, confirmed
+        coming_with_others, companions_count, special_needs, items_to_bring, comments, consent, confirmed
       ) VALUES (
         ?, ?, ?, ?, ?, ?,
         ?, ?, ?, ?, ?, ?, ?, ?, ?,
@@ -56,7 +56,7 @@ async function createRegistration(req, res) {
         ?, ?, ?,
         ?, ?, ?, ?, ?, ?,
         ?, ?, ?, ?, ?,
-        ?, ?, ?, ?, ?, 1
+        ?, ?, ?, ?, ?, ?, 1
       )
     `, [
       registrationNumber,
@@ -94,6 +94,7 @@ async function createRegistration(req, res) {
       data.coming_with_others || 'Non',
       parseInt(data.companions_count, 10) || 0,
       data.special_needs || null,
+      data.items_to_bring || null,
       data.comments || null,
       1
     ]);

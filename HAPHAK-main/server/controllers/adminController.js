@@ -272,7 +272,7 @@ async function updateRegistration(req, res) {
         emergency_contact_name = ?, emergency_contact_phone = ?, emergency_contact_relationship = ?,
         source = ?, arrival_city = ?, transport_method = ?, full_retreat = ?, arrival_date = ?, departure_date = ?,
         organization_member = ?, department = ?, accommodation_required = ?, nights = ?, accommodation_type = ?,
-        coming_with_others = ?, companions_count = ?, special_needs = ?, comments = ?,
+        coming_with_others = ?, companions_count = ?, special_needs = ?, items_to_bring = ?, comments = ?,
         updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
     `, [
@@ -282,7 +282,7 @@ async function updateRegistration(req, res) {
       data.emergency_contact_name, data.emergency_contact_phone, data.emergency_contact_relationship,
       data.source, data.arrival_city, data.transport_method, data.full_retreat, data.arrival_date, data.departure_date,
       data.organization_member, data.department, data.accommodation_required, data.nights, data.accommodation_type,
-      data.coming_with_others, data.companions_count, data.special_needs, data.comments,
+      data.coming_with_others, data.companions_count, data.special_needs, data.items_to_bring, data.comments,
       id
     ]);
 

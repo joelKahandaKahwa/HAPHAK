@@ -89,6 +89,7 @@ async function initDatabase() {
         coming_with_others VARCHAR(10),
         companions_count INTEGER DEFAULT 0,
         special_needs TEXT,
+        items_to_bring TEXT,
         comments TEXT,
         consent INTEGER DEFAULT 1,
         confirmed INTEGER DEFAULT 1,
@@ -98,6 +99,12 @@ async function initDatabase() {
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    const registrationColumns = await dbAsync.all(`PRAGMA table_info(registrations)`);
+    const hasItemsToBring = registrationColumns.some((column) => column.name === 'items_to_bring');
+    if (!hasItemsToBring) {
+      await dbAsync.run(`ALTER TABLE registrations ADD COLUMN items_to_bring TEXT`);
+    }
 
     // Indexes for fast administrative searching & stats
     await dbAsync.run(`CREATE INDEX IF NOT EXISTS idx_reg_number ON registrations(registration_number)`);
