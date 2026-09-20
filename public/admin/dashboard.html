@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscriptions — Administration HAPHAK</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="barre">
+    <div class="enveloppe barre__interieur">
+      <a class="marque" href="/admin/dashboard.html">HAPHAK <span>ADMIN</span></a>
+      <div class="barre__droite">
+        <span class="barre__email" id="admin-email"></span>
+        <button type="button" class="bouton bouton--petit bouton--discret" id="deconnexion"
+                style="color:var(--dore-clair);border-color:rgba(201,162,75,.5)">Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-contenu">
+    <div class="enveloppe">
+      <h1 class="admin-titre">Inscriptions</h1>
+      <p class="admin-sous" id="compteur">Chargement…</p>
+
+      <div class="alerte alerte--erreur" id="alerte" role="alert" hidden></div>
+
+      <!-- Statistiques -->
+      <div class="stats" id="stats"></div>
+
+      <!-- Recherche, filtres, export -->
+      <form class="outils" id="outils" onsubmit="return false">
+        <div>
+          <label class="champ__label" for="f-search">Rechercher</label>
+          <input type="search" id="f-search" placeholder="Nom, téléphone, e-mail, HAP-…" />
+        </div>
+        <div>
+          <label class="champ__label" for="f-gender">Sexe</label>
+          <select id="f-gender">
+            <option value="">Tous</option>
+            <option value="Homme">Homme</option>
+            <option value="Femme">Femme</option>
+          </select>
+        </div>
+        <div>
+          <label class="champ__label" for="f-city">Ville</label>
+          <select id="f-city"><option value="">Toutes</option></select>
+        </div>
+        <div>
+          <label class="champ__label" for="f-accommodation">Hébergement</label>
+          <select id="f-accommodation">
+            <option value="">Tous</option>
+            <option value="true">Avec hébergement</option>
+            <option value="false">Sans hébergement</option>
+          </select>
+        </div>
+        <div>
+          <label class="champ__label" for="f-participation">Participation</label>
+          <select id="f-participation">
+            <option value="">Toutes</option>
+            <option value="Oui">Complète</option>
+            <option value="Non">Partielle</option>
+            <option value="Pas encore sûr">Pas encore sûr</option>
+          </select>
+        </div>
+        <div>
+          <label class="champ__label" for="f-email">Statut e-mail</label>
+          <select id="f-email">
+            <option value="">Tous</option>
+            <option value="sent">Envoyé</option>
+            <option value="pending">En attente</option>
+            <option value="failed">Échec</option>
+          </select>
+        </div>
+
+        <div class="outils__actions">
+          <button type="button" class="bouton bouton--petit bouton--principal" id="appliquer">Appliquer</button>
+          <button type="button" class="bouton bouton--petit bouton--discret" id="reinitialiser">Réinitialiser</button>
+          <button type="button" class="bouton bouton--petit bouton--secondaire" id="exporter">Exporter les inscriptions (CSV)</button>
+        </div>
+      </form>
+
+      <!-- Tableau (écrans larges) -->
+      <div class="tableau-boite">
+        <table class="liste">
+          <thead>
+            <tr>
+              <th>N°</th><th>Nom</th><th>Postnom</th><th>Prénom</th>
+              <th>Téléphone</th><th>E-mail</th><th>Ville</th>
+              <th>Hébergement</th><th>Inscrit le</th><th>Statut e-mail</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="corps"></tbody>
+        </table>
+      </div>
+
+      <!-- Cartes (smartphone) -->
+      <div class="cartes" id="cartes"></div>
+
+      <div id="vide"></div>
+
+      <div class="pagination" id="pagination" hidden>
+        <button type="button" class="bouton bouton--petit bouton--discret" id="prec">Précédent</button>
+        <span id="info-page"></span>
+        <button type="button" class="bouton bouton--petit bouton--discret" id="suiv">Suivant</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fiche participant -->
+  <div class="voile" id="voile"></div>
+  <aside class="panneau" id="panneau" role="dialog" aria-modal="true" aria-labelledby="panneau-titre" hidden>
+    <div class="panneau__entete">
+      <div>
+        <h2 class="panneau__titre" id="panneau-titre">Participant</h2>
+        <p class="admin-sous" id="panneau-num" style="margin:0"></p>
+      </div>
+      <button type="button" class="panneau__fermer" id="fermer" aria-label="Fermer">&times;</button>
+    </div>
+
+    <div class="alerte" id="panneau-alerte" role="alert" hidden></div>
+
+    <div class="panneau__actions">
+      <button type="button" class="bouton bouton--petit bouton--principal" id="btn-modifier">Modifier</button>
+      <button type="button" class="bouton bouton--petit bouton--secondaire" id="btn-renvoyer">Renvoyer l'e-mail</button>
+      <button type="button" class="bouton bouton--petit bouton--discret" id="btn-imprimer">Imprimer</button>
+      <button type="button" class="bouton bouton--petit bouton--danger" id="btn-supprimer">Supprimer</button>
+    </div>
+
+    <div class="recap" id="fiche"></div>
+
+    <form id="form-edition" hidden>
+      <div id="champs-edition"></div>
+      <div class="panneau__actions">
+        <button type="submit" class="bouton bouton--petit bouton--principal">Enregistrer</button>
+        <button type="button" class="bouton bouton--petit bouton--discret" id="btn-annuler">Annuler</button>
+      </div>
+    </form>
+  </aside>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscription — HAPHAK</title>
+  <meta name="description" content="Formulaire d'inscription à la retraite HAPHAK, du 27 au 30 septembre 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <a class="saut" href="#formulaire">Aller au formulaire</a>
+
+  <header class="form-entete">
+    <div class="enveloppe">
+      <h1 class="form-entete__titre">HAPHAK</h1>
+      <p class="form-entete__theme">« Marche devant ma face » — Genèse 17:1</p>
+
+      <div class="progression">
+        <div class="progression__piste">
+          <div class="progression__avance" id="barre"
+               role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"
+               aria-label="Progression du formulaire"></div>
+        </div>
+        <p class="progression__texte">
+          <span id="nom-etape">Identité</span>
+          <span><span id="num-etape">1</span> / 5</span>
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main id="formulaire">
+    <form class="formulaire" id="form" novalidate>
+      <div class="alerte alerte--erreur" id="alerte" role="alert" hidden></div>
+
+      <!-- ÉTAPE 1 — IDENTITÉ -->
+      <section class="etape active" data-etape="1" aria-labelledby="t1">
+        <h2 class="etape__titre" id="t1">Identité</h2>
+        <p class="etape__intro">Commençons par votre nom.</p>
+
+        <div class="champ">
+          <label class="champ__label" for="last_name">Nom <span class="requis" aria-hidden="true">*</span></label>
+          <input type="text" id="last_name" name="last_name" autocomplete="family-name" maxlength="100" required />
+          <span class="erreur" data-erreur="last_name"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="post_name">Postnom</label>
+          <input type="text" id="post_name" name="post_name" maxlength="100" />
+          <span class="erreur" data-erreur="post_name"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="first_name">Prénom <span class="requis" aria-hidden="true">*</span></label>
+          <input type="text" id="first_name" name="first_name" autocomplete="given-name" maxlength="100" required />
+          <span class="erreur" data-erreur="first_name"></span>
+        </div>
+
+        <fieldset>
+          <legend>Sexe <span class="requis" aria-hidden="true">*</span></legend>
+          <div class="choix choix--2">
+            <label class="option"><input type="radio" name="gender" value="Homme" /> Homme</label>
+            <label class="option"><input type="radio" name="gender" value="Femme" /> Femme</label>
+          </div>
+          <span class="erreur" data-erreur="gender"></span>
+        </fieldset>
+
+        <fieldset>
+          <legend>État civil <span class="requis" aria-hidden="true">*</span></legend>
+          <div class="choix choix--2">
+            <label class="option"><input type="radio" name="marital_status" value="Célibataire" /> Célibataire</label>
+            <label class="option"><input type="radio" name="marital_status" value="Marié(e)" /> Marié(e)</label>
+          </div>
+          <span class="erreur" data-erreur="marital_status"></span>
+        </fieldset>
+      </section>
+
+      <!-- ÉTAPE 2 — CONTACT -->
+      <section class="etape" data-etape="2" aria-labelledby="t2">
+        <h2 class="etape__titre" id="t2">Contact</h2>
+        <p class="etape__intro">Pour vous envoyer votre confirmation d'inscription.</p>
+
+        <div class="champ">
+          <label class="champ__label" for="phone">Numéro de téléphone <span class="requis" aria-hidden="true">*</span></label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="20" required />
+          <span class="erreur" data-erreur="phone"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="whatsapp">
+            WhatsApp
+            <span class="champ__aide">Si différent du numéro ci-dessus</span>
+          </label>
+          <input type="tel" id="whatsapp" name="whatsapp" inputmode="tel" maxlength="20" />
+          <span class="erreur" data-erreur="whatsapp"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="email">Adresse e-mail <span class="requis" aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="150" required />
+          <span class="erreur" data-erreur="email"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="address">Adresse</label>
+          <input type="text" id="address" name="address" autocomplete="street-address" maxlength="200" />
+          <span class="erreur" data-erreur="address"></span>
+        </div>
+
+        <div class="grille2">
+          <div class="champ">
+            <label class="champ__label" for="city">Ville <span class="requis" aria-hidden="true">*</span></label>
+            <input type="text" id="city" name="city" maxlength="100" required />
+            <span class="erreur" data-erreur="city"></span>
+          </div>
+          <div class="champ">
+            <label class="champ__label" for="district">Quartier</label>
+            <input type="text" id="district" name="district" maxlength="100" />
+            <span class="erreur" data-erreur="district"></span>
+          </div>
+          <div class="champ">
+            <label class="champ__label" for="commune">Commune</label>
+            <input type="text" id="commune" name="commune" maxlength="100" />
+            <span class="erreur" data-erreur="commune"></span>
+          </div>
+          <div class="champ">
+            <label class="champ__label" for="province">Province</label>
+            <input type="text" id="province" name="province" maxlength="100" />
+            <span class="erreur" data-erreur="province"></span>
+          </div>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="country">Pays <span class="requis" aria-hidden="true">*</span></label>
+          <input type="text" id="country" name="country" autocomplete="country-name" maxlength="100" required />
+          <span class="erreur" data-erreur="country"></span>
+        </div>
+      </section>
+
+      <!-- ÉTAPE 3 — PARTICIPATION -->
+      <section class="etape" data-etape="3" aria-labelledby="t3">
+        <h2 class="etape__titre" id="t3">Participation</h2>
+        <p class="etape__intro">Quelques précisions sur votre venue.</p>
+
+        <div class="champ">
+          <label class="champ__label" for="origin_city">Ville d'origine <span class="requis" aria-hidden="true">*</span></label>
+          <input type="text" id="origin_city" name="origin_city" maxlength="100" required />
+          <span class="erreur" data-erreur="origin_city"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="how_heard">Comment avez-vous connu HAPHAK ? <span class="requis" aria-hidden="true">*</span></label>
+          <select id="how_heard" name="how_heard" required>
+            <option value="">Choisissez…</option>
+            <option value="Église">Église</option>
+            <option value="Ami(e)">Ami(e)</option>
+            <option value="WhatsApp">WhatsApp</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Instagram">Instagram</option>
+            <option value="Annonce">Annonce</option>
+            <option value="Autre">Autre</option>
+          </select>
+          <span class="erreur" data-erreur="how_heard"></span>
+        </div>
+
+        <fieldset>
+          <legend>Participerez-vous à toute la retraite ? <span class="requis" aria-hidden="true">*</span></legend>
+          <div class="choix choix--3">
+            <label class="option"><input type="radio" name="full_participation" value="Oui" /> Oui</label>
+            <label class="option"><input type="radio" name="full_participation" value="Non" /> Non</label>
+            <label class="option"><input type="radio" name="full_participation" value="Pas encore sûr" /> Pas encore sûr</label>
+          </div>
+          <span class="erreur" data-erreur="full_participation"></span>
+        </fieldset>
+      </section>
+
+      <!-- ÉTAPE 4 — HÉBERGEMENT -->
+      <section class="etape" data-etape="4" aria-labelledby="t4">
+        <h2 class="etape__titre" id="t4">Hébergement</h2>
+        <p class="etape__intro">Pour préparer votre accueil.</p>
+
+        <fieldset>
+          <legend>Avez-vous besoin d'un hébergement ?</legend>
+          <div class="choix choix--2">
+            <label class="option"><input type="radio" name="needs_accommodation" value="true" /> Oui</label>
+            <label class="option"><input type="radio" name="needs_accommodation" value="false" checked /> Non</label>
+          </div>
+        </fieldset>
+
+        <div class="conditionnel champ" id="bloc-nuits">
+          <label class="champ__label" for="number_of_nights">Nombre de nuits</label>
+          <input type="number" id="number_of_nights" name="number_of_nights" min="1" max="30" inputmode="numeric" />
+          <span class="erreur" data-erreur="number_of_nights"></span>
+        </div>
+
+        <fieldset>
+          <legend>Venez-vous seul(e) ?</legend>
+          <div class="choix choix--2">
+            <label class="option"><input type="radio" name="comes_alone" value="true" checked /> Oui</label>
+            <label class="option"><input type="radio" name="comes_alone" value="false" /> Non</label>
+          </div>
+        </fieldset>
+
+        <div class="conditionnel champ" id="bloc-accompagnateurs">
+          <label class="champ__label" for="companions">Nombre d'accompagnateurs</label>
+          <input type="number" id="companions" name="companions" min="1" max="50" inputmode="numeric" />
+          <span class="erreur" data-erreur="companions"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="special_needs">Besoins particuliers</label>
+          <textarea id="special_needs" name="special_needs" maxlength="1000"></textarea>
+          <span class="erreur" data-erreur="special_needs"></span>
+        </div>
+
+        <div class="champ">
+          <label class="champ__label" for="comments">Commentaires</label>
+          <textarea id="comments" name="comments" maxlength="1000"></textarea>
+          <span class="erreur" data-erreur="comments"></span>
+        </div>
+      </section>
+
+      <!-- ÉTAPE 5 — RÉCAPITULATIF ET CONFIRMATION -->
+      <section class="etape" data-etape="5" aria-labelledby="t5">
+        <h2 class="etape__titre" id="t5">Vérification</h2>
+        <p class="etape__intro">Relisez vos informations avant de confirmer.</p>
+
+        <div class="recap" id="recap"></div>
+
+        <div style="margin-top:24px">
+          <label class="case">
+            <input type="checkbox" id="accuracy" name="accuracy" />
+            <span>Je confirme que les informations fournies sont exactes.</span>
+          </label>
+          <span class="erreur" data-erreur="accuracy"></span>
+
+          <label class="case">
+            <input type="checkbox" id="consent" name="consent" />
+            <span>J'accepte que mes données soient utilisées pour l'organisation de HAPHAK.</span>
+          </label>
+          <span class="erreur" data-erreur="consent"></span>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <nav class="navigation" aria-label="Navigation du formulaire">
+    <button type="button" class="bouton bouton--discret" id="precedent">Précédent</button>
+    <button type="button" class="bouton bouton--principal" id="suivant">Continuer</button>
+  </nav>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/inscription.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscription confirmée — HAPHAK</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="entete">
+    <div class="enveloppe entete__interieur">
+      <a class="marque" href="/">HAPHAK</a>
+    </div>
+  </header>
+
+  <main class="confirmation">
+    <div class="alerte alerte--erreur" id="alerte" role="alert" hidden></div>
+
+    <div id="contenu" hidden>
+      <div class="sceau" aria-hidden="true">&#10022;</div>
+      <h1 class="confirmation__titre">Inscription confirmée !</h1>
+      <p class="confirmation__texte">
+        Merci, votre place est enregistrée. Notez votre numéro d'inscription.
+      </p>
+
+      <p class="numero" id="numero">&mdash;</p>
+
+      <div class="recap" id="details"></div>
+
+      <div class="alerte alerte--info" id="statut-email" hidden></div>
+
+      <div class="confirmation__actions">
+        <button type="button" class="bouton bouton--principal" id="imprimer">Imprimer ma confirmation</button>
+        <a class="bouton bouton--discret" href="/">Retour à l'accueil</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/confirmation.js"></script>
+</body>
+</html>
