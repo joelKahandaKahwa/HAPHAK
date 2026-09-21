@@ -85,7 +85,30 @@ const limiteConnexion = rateLimit({
 // ------------------------------------------------------------
 app.get('/admin', (req, res) => res.redirect('/admin/dashboard.html'));
 
-// Connexion via URL unique : /admin/:token  (ex. admin26 ou token hex)
+// Connexion via URL unique : /adminNN à la racine (ex. /admin26)
+app.get(/^\/admin(\d+)$/i, async (req, res) => {
+  try {
+    const n = Number.parseInt(req.params[0], 10);
+    if (Number.isNaN(n)) return res.status(400).send('ID invalide');
+
+    const { rows } = await query('SELECT id, email FROM admins WHERE id = $1', [n]);
+    if (!rows.length) {
+      console.log('[LOGIN] via adminNN failed', { ip: req.ip, id: n });
+      return res.status(404).send('Identifiant administrateur introuvable.');
+    }
+
+    const admin = rows[0];
+    req.session.adminId = admin.id;
+    req.session.adminEmail = admin.email;
+    console.log('[LOGIN] via adminNN success', { ip: req.ip, admin: admin.email });
+    return res.redirect('/admin/dashboard.html');
+  } catch (err) {
+    console.error('[LOGIN ADMINNN ERROR]', err && err.stack ? err.stack : err);
+    return res.status(500).send('Erreur serveur.');
+  }
+});
+
+// Connexion via URL unique : /admin/:token  (ex. token hex or adminNN under /admin/)
 app.get('/admin/:token', async (req, res) => {
   try {
     const t = String(req.params.token || '').trim();
