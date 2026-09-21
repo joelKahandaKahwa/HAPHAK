@@ -117,6 +117,37 @@ app.get('/admin/:token', async (req, res) => {
   }
 });
 
+// Générer/obtenir un token pour un administrateur (sécurisé).
+// Utilisation : POST /admin/setup-token  { "email": "admin@example.com" }
+// Doit fournir l'en-tête `x-setup-key` égal à process.env.ADMIN_SETUP_KEY.
+app.post('/admin/setup-token', express.json(), async (req, res) => {
+  try {
+    const key = req.get('x-setup-key') || req.query.key;
+    if (!process.env.ADMIN_SETUP_KEY || !key || key !== process.env.ADMIN_SETUP_KEY) {
+      return res.status(404).json({ success: false, message: 'Not found' });
+    }
+
+    const email = String((req.body && req.body.email) || req.query.email || '').trim();
+    if (!email) return res.status(400).json({ success: false, message: 'Email manquant.' });
+
+    const { rows } = await query('SELECT id, email FROM admins WHERE LOWER(email) = LOWER($1)', [email.toLowerCase()]);
+    if (!rows.length) {
+      // Crée un administrateur sans mot de passe si absent (token obligatoire).
+      const token = require('crypto').randomBytes(16).toString('hex');
+      await query('INSERT INTO admins (email, password_hash, admin_token) VALUES ($1, $2, $3)', [email, 'nopass', token]);
+      return res.json({ success: true, email, token, url: `/admin/${token}` });
+    }
+
+    // Si présent, génère et met à jour un token
+    const token = require('crypto').randomBytes(16).toString('hex');
+    await query('UPDATE admins SET admin_token = $1 WHERE id = $2', [token, rows[0].id]);
+    return res.json({ success: true, email: rows[0].email, token, url: `/admin/${token}` });
+  } catch (err) {
+    console.error('[SETUP TOKEN ERROR]', err && err.stack ? err.stack : err);
+    return res.status(500).json({ success: false, message: 'Erreur serveur.' });
+  }
+});
+
 app.get('/admin/dashboard.html', exigerAuthPage, (req, res) => {
   // Le dashboard est stocké dans `public/dashboard.html`.
   res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
