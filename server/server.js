@@ -85,8 +85,41 @@ const limiteConnexion = rateLimit({
 // ------------------------------------------------------------
 app.get('/admin', (req, res) => res.redirect('/admin/dashboard.html'));
 
+// Connexion via URL unique : /admin/:token  (ex. admin26 ou token hex)
+app.get('/admin/:token', async (req, res) => {
+  try {
+    const t = String(req.params.token || '').trim();
+    if (!t) return res.status(400).send('Token manquant.');
+
+    // Si format adminNN -> map vers id numérique
+    const m = t.match(/^admin(\d+)$/i);
+    let result;
+    if (m) {
+      const n = Number.parseInt(m[1], 10);
+      result = await query('SELECT id, email FROM admins WHERE id = $1', [n]);
+    } else {
+      result = await query('SELECT id, email FROM admins WHERE admin_token = $1', [t]);
+    }
+
+    if (!result.rows.length) {
+      console.log('[LOGIN] via url failed', { ip: req.ip, token: t });
+      return res.status(404).send('Identifiant administrateur introuvable.');
+    }
+
+    const admin = result.rows[0];
+    req.session.adminId = admin.id;
+    req.session.adminEmail = admin.email;
+    console.log('[LOGIN] via url success', { ip: req.ip, admin: admin.email });
+    return res.redirect('/admin/dashboard.html');
+  } catch (err) {
+    console.error('[LOGIN URL ERROR]', err && err.stack ? err.stack : err);
+    return res.status(500).send('Erreur serveur.');
+  }
+});
+
 app.get('/admin/dashboard.html', exigerAuthPage, (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'admin', 'dashboard.html'));
+  // Le dashboard est stocké dans `public/dashboard.html`.
+  res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
 });
 
 // ------------------------------------------------------------
@@ -323,18 +356,65 @@ app.get('/api/registrations/:numero', async (req, res, next) => {
 
 app.post('/api/admin/login', limiteConnexion, async (req, res, next) => {
   try {
-    const admin = await verifierIdentifiants(req.body?.email, req.body?.password);
+    console.log('[LOGIN] incoming', { ip: req.ip, url: req.originalUrl, body: req.body });
 
-    // Message identique que le compte existe ou non.
-    if (!admin) {
-      return res.status(401).json({ success: false, message: 'Identifiants incorrects.' });
+    const { token, id } = req.body || {};
+
+    let admin = null;
+
+    if (token && String(token).trim() !== '') {
+      const t = String(token).trim();
+      // Si format adminNN, utiliser l'ID numérique correspondant (ex. admin26 -> id=26)
+      const m = t.match(/^admin(\d+)$/i);
+      if (m) {
+        const n = Number.parseInt(m[1], 10);
+        const { rows } = await query('SELECT id, email FROM admins WHERE id = $1', [n]);
+        if (!rows.length) {
+          console.log('[LOGIN] failed adminNN', { ip: req.ip, token: t });
+          return res.status(401).json({ success: false, message: 'Identifiants incorrects.' });
+        }
+        admin = { id: rows[0].id, email: rows[0].email };
+      } else {
+        // Auth via token unique stocké dans admin_token
+        const { rows } = await query('SELECT id, email FROM admins WHERE admin_token = $1', [t]);
+        if (!rows.length) {
+          console.log('[LOGIN] failed token', { ip: req.ip, token: t });
+          return res.status(401).json({ success: false, message: 'Identifiants incorrects.' });
+        }
+        admin = { id: rows[0].id, email: rows[0].email };
+      }
+    } else if (id !== undefined && id !== null && String(id).trim() !== '') {
+      // Backward compat: numeric id
+      const n = Number.parseInt(String(id).trim(), 10);
+      if (Number.isNaN(n)) {
+        console.log('[LOGIN] invalid id', { ip: req.ip, id });
+        return res.status(400).json({ success: false, message: 'ID administrateur invalide.' });
+      }
+
+      const { rows } = await query('SELECT id, email FROM admins WHERE id = $1', [n]);
+      if (!rows.length) {
+        console.log('[LOGIN] failed id', { ip: req.ip, id: n });
+        return res.status(401).json({ success: false, message: 'Identifiants incorrects.' });
+      }
+      admin = { id: rows[0].id, email: rows[0].email };
+    } else {
+      // Fallback : ancienne méthode basée sur email+mot de passe
+      const adminCred = await verifierIdentifiants(req.body?.email, req.body?.password);
+      if (!adminCred) {
+        console.log('[LOGIN] failed credentials', { ip: req.ip, email: req.body?.email });
+        return res.status(401).json({ success: false, message: 'Identifiants incorrects.' });
+      }
+      admin = adminCred;
     }
 
     req.session.adminId = admin.id;
     req.session.adminEmail = admin.email;
 
+    console.log('[LOGIN] success', { ip: req.ip, admin: admin.email });
+
     res.json({ success: true, data: { email: admin.email } });
   } catch (err) {
+    console.error('[LOGIN ERROR]', err && err.stack ? err.stack : err);
     next(err);
   }
 });
@@ -686,7 +766,7 @@ async function demarrer() {
   app.listen(PORT, () => {
     console.log(`\n  HAPHAK — serveur démarré sur le port ${PORT}`);
     console.log(`  Site           : ${process.env.APP_URL || `http://localhost:${PORT}`}`);
-    console.log(`  Administration : ${process.env.APP_URL || `http://localhost:${PORT}`}/admin/login.html\n`);
+    console.log(`  Administration : ${process.env.APP_URL || `http://localhost:${PORT}`}/admin/<token>  (connexion via URL unique)`);
   });
 }
 
