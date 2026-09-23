@@ -4,23 +4,11 @@
 
 /** Appel JSON vers l'API. Lève une Error enrichie en cas d'échec. */
 async function apiFetch(chemin, options = {}) {
-  // Si l'utilisateur ouvre les fichiers localement (file://),
-  // rediriger les appels API vers http://localhost:3000 par défaut.
-  const base = (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:')
-    ? 'http://localhost:3000'
-    : '';
-
-  let reponse;
-  try {
-    reponse = await fetch(base + chemin, {
-      // Inclure les cookies pour permettre la session (utile en dev sur localhost).
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-      ...options,
-    });
-  } catch (e) {
-    throw new Error('Impossible de contacter le serveur. Vérifiez que le serveur est démarré et que vous accédez au site via http://localhost:3000');
-  }
+  const reponse = await fetch(chemin, {
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    ...options,
+  });
 
   let donnees;
   try {

@@ -11,7 +11,7 @@
   // Session
   // ----------------------------------------------------------
   function versConnexion() {
-    window.location.href = '/';
+    window.location.href = '/admin/login.html';
   }
 
   async function appel(promesse) {

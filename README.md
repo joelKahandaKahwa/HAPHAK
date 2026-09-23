@@ -179,7 +179,7 @@ npm run dev
 |---|---|
 | Site | http://localhost:3000 |
 | Inscription | http://localhost:3000/inscription.html |
-| Administration | http://localhost:3000/admin/<token> (connexion via URL unique) |
+| Administration | http://localhost:3000/admin/login.html |
 
 En production : `npm start`.
 

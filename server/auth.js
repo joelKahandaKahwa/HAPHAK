@@ -4,14 +4,9 @@
 // ============================================================
 
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
 const { query } = require('./db');
 
 const TOURS_BCRYPT = 12;
-
-function genererToken() {
-  return crypto.randomBytes(16).toString('hex');
-}
 
 /**
  * Crée le compte administrateur au démarrage à partir des variables
@@ -30,26 +25,12 @@ async function initAdmin() {
 
   if (rows.length) {
     console.log(`✅ Administrateur existant : ${email}`);
-    // Veiller à ce que chaque administrateur ait un token unique
-    await assurerTokensAdmins();
     return;
   }
 
   const hash = await bcrypt.hash(motDePasse, TOURS_BCRYPT);
-  const token = genererToken();
-  await query('INSERT INTO admins (email, password_hash, admin_token) VALUES ($1, $2, $3)', [email, hash, token]);
+  await query('INSERT INTO admins (email, password_hash) VALUES ($1, $2)', [email, hash]);
   console.log(`✅ Administrateur créé : ${email}`);
-  console.log(`[ADMIN TOKEN] ${email}: ${token}`);
-}
-
-/** Génère et assigne des tokens aux admins qui n'en ont pas encore. */
-async function assurerTokensAdmins() {
-  const { rows } = await query('SELECT id, email FROM admins WHERE admin_token IS NULL');
-  for (const r of rows) {
-    const token = genererToken();
-    await query('UPDATE admins SET admin_token = $1 WHERE id = $2', [token, r.id]);
-    console.log(`[ADMIN TOKEN] ${r.email}: ${token}`);
-  }
 }
 
 /** Vérifie les identifiants. Retourne l'admin ou null. */
@@ -81,7 +62,7 @@ function exigerAuth(req, res, next) {
 /** Middleware : protège les pages HTML d'administration. */
 function exigerAuthPage(req, res, next) {
   if (req.session && req.session.adminId) return next();
-  return res.redirect('/');
+  return res.redirect('/admin/login.html');
 }
 
 module.exports = { initAdmin, verifierIdentifiants, exigerAuth, exigerAuthPage };

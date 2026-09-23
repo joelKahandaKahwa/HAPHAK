@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS admins (
   id            SERIAL PRIMARY KEY,
   email         TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL,
-  admin_token   TEXT UNIQUE,
   created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
